@@ -1,7 +1,13 @@
 package com.example.videotest;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
+import android.Manifest;
+import android.app.usage.ExternalStorageStats;
+import android.content.pm.PackageManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Build;
@@ -21,12 +27,18 @@ public class MainActivity extends AppCompatActivity {
     VideoView videoView;
     ArrayList<File> songs;
     int video;
+    final int REQUEST_ACCESS_FINE=0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        pantallaFull();
         setContentView(R.layout.activity_main);
 
-        pantallaFull();
+        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.READ_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, REQUEST_ACCESS_FINE);
+        }
+
         videoView=(VideoView)findViewById(R.id.videoView);
 
         songs=readSongs(Environment.getExternalStorageDirectory());
@@ -81,6 +93,17 @@ public class MainActivity extends AppCompatActivity {
                             | View.SYSTEM_UI_FLAG_FULLSCREEN
                             | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
             );
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if(requestCode == REQUEST_ACCESS_FINE){
+            if(grantResults.length>0 && grantResults[0]==PackageManager.PERMISSION_GRANTED)
+                Toast.makeText(this, "Permitir", Toast.LENGTH_SHORT).show();
+            else
+                Toast.makeText(this, "Cerrado", Toast.LENGTH_SHORT).show();
         }
     }
 }
