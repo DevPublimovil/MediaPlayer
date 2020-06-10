@@ -25,7 +25,7 @@ import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
     VideoView videoView;
-    ArrayList<File> songs;
+    ArrayList<File> videos;
     int video;
     final int REQUEST_ACCESS_FINE=0;
     @Override
@@ -41,8 +41,8 @@ public class MainActivity extends AppCompatActivity {
 
         videoView=(VideoView)findViewById(R.id.videoView);
 
-        songs=readSongs(Environment.getExternalStorageDirectory());
-        Toast.makeText(this, songs.get(0).toString(), Toast.LENGTH_SHORT).show();
+        videos=readSongs(Environment.getExternalStorageDirectory());
+        Toast.makeText(this, videos.get(0).toString(), Toast.LENGTH_SHORT).show();
         //INICIA EL REPRODUCTOR
             reproducir();
             videoView.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
@@ -50,13 +50,13 @@ public class MainActivity extends AppCompatActivity {
                 public void onCompletion(MediaPlayer mediaPlayer) {
                     pantallaFull();
                     ++video;
-                    if(video>songs.size()-1){
+                    if(video>videos.size()-1){
                         video=0;
                     }
-                    String x=songs.get(video).toString();
+                    String x=videos.get(video).toString();
                     videoView.setVideoPath(x);
                     videoView.start();
-                    Toast.makeText(MainActivity.this, "termino "+songs.get(video), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, "termino "+videos.get(video), Toast.LENGTH_SHORT).show();
                 }
             });
             //Toast.makeText(this, songs.get(j).toString(),Toast.LENGTH_SHORT).show();
@@ -78,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void reproducir(){
         videoView.setMediaController(new MediaController(this));
-        String x=songs.get(0).toString();
+        String x=videos.get(0).toString();
         videoView.setVideoPath(x);
         videoView.start();
     }
