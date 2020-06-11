@@ -3,17 +3,13 @@ package com.example.videotest;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
-import androidx.core.app.NotificationCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
 import android.app.AlertDialog;
-import android.app.Notification;
-import android.app.usage.ExternalStorageStats;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.media.MediaPlayer;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -23,9 +19,7 @@ import android.widget.Toast;
 import android.widget.VideoView;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
     VideoView videoView;
@@ -58,10 +52,10 @@ public class MainActivity extends AppCompatActivity {
                     String x = videos.get(video).toString();
                     videoView.setVideoPath(x);
                     videoView.start();
-                    Toast.makeText(MainActivity.this, "termino " + videos.get(video), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, "fin " + videos.get(video), Toast.LENGTH_SHORT).show();
                 }
             });
-        //Toast.makeText(this, songs.get(j).toString(),Toast.LENGTH_SHORT).show();
+
     }
     ArrayList<File> readSongs(File root){
         ArrayList<File> arrayList = new ArrayList<File>();
@@ -82,6 +76,7 @@ public class MainActivity extends AppCompatActivity {
 
         // setup the alert builder
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
         builder.setTitle("Memoria Vacía");
         builder.setMessage("No se encontraron archivos mp4.");
 
@@ -102,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
         videoView.setMediaController(new MediaController(this));
         if(videos.size()==0){
             showAlertDialogButtonClicked();
-            //Toast.makeText(this, "No se encontraron videos mp4", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "No se encontraron videos mp4", Toast.LENGTH_SHORT).show();
         }else{
             String x=videos.get(0).toString();
             videoView.setVideoPath(x);
